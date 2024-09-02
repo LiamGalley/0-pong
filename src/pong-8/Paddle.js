@@ -14,6 +14,7 @@ export default class Paddle {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.halfheight = height / 2;
 		this.canvasHeight = canvasHeight;
 		this.dy = 0;
 		this.maxSpeed = 1000;
@@ -55,6 +56,39 @@ export default class Paddle {
 		 */
 		else {
 			this.y = Math.min(this.canvasHeight - this.height, this.y + this.dy * dt);
+		}
+	}
+
+	// Gives access to the second player to use the keyboard keys to move their paddle.
+	playerMovement(keys, player) {
+		if (keys.up) {
+			player.moveUp();
+		}
+		else if (keys.down) {
+			player.moveDown();
+		}
+		else {
+			player.stop();
+		}
+	}
+
+	// Similar as above, although it prevents the second player from using any keys.
+	// Instead an AI is used to track the ball.
+	AIMovement(ball, player, gameState){
+		// Used to stop the paddle AI from going crazy trying to stay in the middle of the ball's y coordinate.
+		if (gameState === "start" || gameState === "serve"){
+			player.stop();
+		}
+		else{
+			if (ball.y < player.y + player.halfheight) {
+				player.moveUp();
+			}
+			else if (ball.height + ball.y > player.y + player.halfheight) {
+				player.moveDown();
+			}
+			else {
+				player.stop();
+			}
 		}
 	}
 

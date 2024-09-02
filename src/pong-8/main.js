@@ -177,15 +177,7 @@ function update(dt) {
 	}
 
 	// Player 2 movement.
-	if (keys.ArrowUp) {
-		player2.moveUp();
-	}
-	else if (keys.ArrowDown) {
-		player2.moveDown();
-	}
-	else {
-		player2.stop();
-	}
+	player2.AIMovement(ball, player2, gameState);
 
 	render();
 }
